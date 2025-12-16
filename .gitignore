@@ -13,6 +13,7 @@ build/
 venv/
 ENV/
 logs/*.jsonl
+!logs/.gitkeep
 .DS_Store
 *.log
 

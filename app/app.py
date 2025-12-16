@@ -59,7 +59,7 @@ EQUIPOS_INICIALES = [
 
 # Título principal
 st.title("🏛️ Prueba de juego Ciencia Política")
-st.markdown("### Juego de Campaña Política con Game Master LLM")
+st.markdown("### Juego de Campaña Política con LLM")
 
 # Sidebar para configuración
 with st.sidebar:
@@ -167,7 +167,7 @@ with tab1:
         if not entrega_textual.strip():
             st.error("⚠️ Por favor, ingresa el texto de la entrega antes de evaluar.")
         else:
-            with st.spinner("🤖 El Game Master está evaluando..."):
+            with st.spinner("La ciudadanía está evaluando..."):
                 try:
                     # Construir prompt
                     prompt_usuario = construir_prompt_usuario(
@@ -279,7 +279,7 @@ with tab1:
                 )
             
             # Devolución GM
-            st.markdown("### 💬 Devolución del Game Master")
+            st.markdown("### 💬 Devolución de la ciudadanía")
             st.markdown(ultima.devolucion_gm)
             
             # Fortalezas y debilidades
