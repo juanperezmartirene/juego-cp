@@ -19,9 +19,14 @@ def _normalizar_impacto_valor(value: str) -> str:
 
     # Correcciones por confusión con severidad de escándalo
     severidad_to_impacto = {
-        "Alta": "Sube",
-        "Media": "Se mantiene",
-        "Baja": "Baja",
+    # Confusión con severidad
+    "Alta": "Sube",
+    "Media": "Se mantiene",
+    "Baja": "Baja",
+    # Variantes "Bajo/Medio/Alto"
+    "Alto": "Sube",
+    "Medio": "Se mantiene",
+    "Bajo": "Baja",
     }
     if v in severidad_to_impacto:
         return severidad_to_impacto[v]
