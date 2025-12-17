@@ -45,13 +45,13 @@ EQUIPOS_INICIALES = [
     ),
     Equipo(
         nombre="Equipo 3",
-        partido="Partido Nacional",
+        partido="Partido Conservador",
         candidato="María Fernández",
         perfil="Senadora experimentada, perfil conservador, base rural"
     ),
     Equipo(
         nombre="Equipo 4",
-        partido="Partido Nacional",
+        partido="Partido Conservador",
         candidato="Juan López",
         perfil="Empresario, primera vez en política, perfil técnico"
     )

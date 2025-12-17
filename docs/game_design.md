@@ -16,7 +16,7 @@
 ### Estructura
 
 - **4 equipos** (4 precandidatos)
-- **2 partidos ficticios**: Partido Progresista y Partido Nacional
+- **2 partidos ficticios**: Partido Progresista y Partido Conservador
 - **Etapas**:
   - **Internas**: R1, R2 (competencia dentro del partido)
   - **Nacional**: R3, R4, Cierre (competencia entre partidos, después de fusión)
@@ -114,7 +114,7 @@ El prompt incluye:
 - **Ana Martínez**: Ex intendente, 15 años en política, perfil moderado
 - **Carlos Ramírez**: Diputado joven, perfil más radical, redes sociales fuertes
 
-### Partido Nacional
+### Partido Conservador
 - **María Fernández**: Senadora experimentada, perfil conservador, base rural
 - **Juan López**: Empresario, primera vez en política, perfil técnico
 
