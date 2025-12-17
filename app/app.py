@@ -157,7 +157,7 @@ with tab1:
     # Botón de evaluación
     col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
-        evaluar = st.button("🎲 Evaluar con GM", type="primary", use_container_width=True)
+        evaluar = st.button("Enviar a la ciudadanía", type="primary", use_container_width=True)
     with col2:
         if st.button("🔄 Limpiar", use_container_width=True):
             st.rerun()
