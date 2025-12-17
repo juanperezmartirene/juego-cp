@@ -81,7 +81,9 @@ def construir_prompt_usuario(
     candidato: str,
     perfil: str,
     situacion_interna: str,
-    entrega_textual: str
+    entrega_textual: str,
+    tablero: dict,
+    formato: str
 ) -> str:
     """
     Construye el prompt de usuario para el LLM.
@@ -100,8 +102,17 @@ INFORMACIÓN DEL CANDIDATO:
 - Perfil: {perfil}
 - Situación interna del partido: {situacion_interna}
 
+DECISIONES DE TABLERO (OBLIGATORIAS):
+- Segmento objetivo: {tablero['segmento']}
+- Tono: {tablero['tono']}
+- Canal: {tablero['canal']}
+- Alianza interna: {tablero['alianza_interna']}
+
 TIPO DE ENTREGA SOLICITADA:
 {evento['tipo_entrega']}
+
+FORMATO DE ENTREGA:
+{formato}
 
 ENTREGA DEL EQUIPO (texto literal, no editar):
 --------------------
@@ -111,15 +122,21 @@ ENTREGA DEL EQUIPO (texto literal, no editar):
 TAREA:
 Evalúa esta entrega como lo haría la opinión pública y los medios.
 
+IMPORTANTE - COHERENCIA ENTRE DECISIONES Y ENTREGA:
+- Debes evaluar la coherencia entre las decisiones del tablero (segmento, tono, canal, alianza interna) y la entrega realizada.
+- INCOHERENCIA: Si la entrega no se alinea con las decisiones del tablero, penaliza en estrategia y credibilidad.
+- COHERENCIA: Si la entrega se alinea bien con las decisiones del tablero, premia en estrategia y claridad.
+- La entrega está en micro-secciones. No penalizar por ser corta.
+
 DIMENSIONES (0–20 cada una):
 1. claridad
-2. estrategia
-3. credibilidad
+2. estrategia (considera coherencia con decisiones del tablero)
+3. credibilidad (considera coherencia con decisiones del tablero)
 4. emocion_identidad
 5. riesgo_backlash (20 = buen manejo del riesgo)
 
 PASOS:
-1. Asigna los 5 scores (enteros).
+1. Asigna los 5 scores (enteros), considerando la coherencia entre decisiones del tablero y la entrega.
 2. Calcula total_sin_shock.
 3. Aplica shock_opinion_publica (-3 a +3) JUSTIFICADO por el contexto.
 4. Calcula total_final.

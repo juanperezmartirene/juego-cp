@@ -57,6 +57,34 @@ EQUIPOS_INICIALES = [
     )
 ]
 
+# Formatos de entrega con límites de caracteres
+FORMATOS_ENTREGA = {
+    "Afiche (slogan + promesa)": {
+        "campos": {
+            "slogan": {"label": "Slogan", "max_chars": 60},
+            "propuesta": {"label": "Propuesta", "max_chars": 220}
+        }
+    },
+    "Discurso (apertura + 3 ejes + cierre)": {
+        "campos": {
+            "apertura": {"label": "Apertura", "max_chars": 220},
+            "ejes": {"label": "3 Ejes", "max_chars": 420},
+            "cierre": {"label": "Cierre", "max_chars": 180}
+        }
+    },
+    "Crisis (qué decís + qué hacés)": {
+        "campos": {
+            "declaracion": {"label": "Qué decís", "max_chars": 220},
+            "accion": {"label": "Qué hacés", "max_chars": 220}
+        }
+    },
+    "Ataque/Defensa (1 línea)": {
+        "campos": {
+            "linea": {"label": "Línea", "max_chars": 180}
+        }
+    }
+}
+
 # Título principal
 st.title("🏛️ Prueba de juego Ciencia Política")
 st.markdown("### Juego de Campaña Política con LLM")
@@ -145,14 +173,89 @@ with tab1:
         height=100
     )
     
-    # Campo de texto grande para la entrega
+    # Tablero de campaña (microdecisiones)
+    st.subheader("🎯 Tablero de Campaña (Microdecisiones)")
+    col1, col2 = st.columns(2)
+    with col1:
+        segmento = st.selectbox(
+            "Segmento objetivo",
+            ["Jóvenes urbanos", "Clase media metropolitana", "Interior / rural", "Trabajadores formales", "Indecisos moderados"],
+            help="Segmento objetivo de la campaña"
+        )
+        tono = st.selectbox(
+            "Tono",
+            ["Positivo (propuesta)", "Contraste (comparación)", "Duro (mano firme)", "Empático (cercanía)"],
+            help="Tono comunicacional"
+        )
+    with col2:
+        canal = st.selectbox(
+            "Canal",
+            ["Acto partidario", "Redes sociales", "Radio", "Puerta a puerta", "TV"],
+            help="Canal de comunicación"
+        )
+        alianza_interna = st.selectbox(
+            "Alianza interna",
+            ["Históricos", "Nuevas generaciones", "Unidad (mix)", "Neutral (evita interna)"],
+            help="Estrategia de alianza interna"
+        )
+    
+    # Construir dict del tablero
+    tablero = {
+        "segmento": segmento,
+        "tono": tono,
+        "canal": canal,
+        "alianza_interna": alianza_interna
+    }
+    
+    # Sistema de formatos de entrega
     st.subheader(f"📝 Entrega: {evento['tipo_entrega']}")
-    entrega_textual = st.text_area(
-        "Texto de la Entrega",
-        placeholder=f"Escribe aquí tu {evento['tipo_entrega'].lower()}...",
-        height=300,
-        help="Ingresa el texto completo de la entrega a evaluar"
+    
+    # Determinar formato sugerido según tipo_entrega
+    tipo_lower = evento['tipo_entrega'].lower()
+    formato_default = "Ataque/Defensa (1 línea)"  # default
+    if "discurso" in tipo_lower:
+        formato_default = "Discurso (apertura + 3 ejes + cierre)"
+    elif "afiche" in tipo_lower:
+        formato_default = "Afiche (slogan + promesa)"
+    elif "crisis" in tipo_lower:
+        formato_default = "Crisis (qué decís + qué hacés)"
+    
+    formato_seleccionado = st.selectbox(
+        "Formato",
+        options=list(FORMATOS_ENTREGA.keys()),
+        index=list(FORMATOS_ENTREGA.keys()).index(formato_default) if formato_default in FORMATOS_ENTREGA else 0,
+        help="Selecciona el formato de entrega"
     )
+    
+    # Campos dinámicos según formato
+    campos_entrega = {}
+    formato_config = FORMATOS_ENTREGA[formato_seleccionado]
+    
+    for campo_key, campo_info in formato_config["campos"].items():
+        max_chars = campo_info["max_chars"]
+        label = campo_info["label"]
+        texto = st.text_area(
+            f"{label} (máx. {max_chars} caracteres)",
+            key=f"entrega_{campo_key}",
+            help=f"Máximo {max_chars} caracteres",
+            height=100 if max_chars > 200 else 60
+        )
+        # Mostrar contador de caracteres
+        chars_actuales = len(texto)
+        if chars_actuales > max_chars:
+            st.error(f"⚠️ {chars_actuales}/{max_chars} caracteres (excede el límite)")
+        else:
+            st.caption(f"{chars_actuales}/{max_chars} caracteres")
+        campos_entrega[campo_key] = texto
+    
+    # Construir entrega_textual concatenando campos no vacíos
+    partes_entrega = []
+    for campo_key, texto in campos_entrega.items():
+        if texto.strip():
+            label = formato_config["campos"][campo_key]["label"]
+            partes_entrega.append(f"{label}: {texto.strip()}")
+    
+    entrega_textual = "\n\n".join(partes_entrega) if partes_entrega else ""
     
     # Botón de evaluación
     col1, col2, col3 = st.columns([1, 1, 2])
@@ -164,8 +267,23 @@ with tab1:
     
     # Procesamiento de evaluación
     if evaluar:
+        # Validaciones
+        errores = []
+        
+        # Validar que no todos los campos estén vacíos
         if not entrega_textual.strip():
-            st.error("⚠️ Por favor, ingresa el texto de la entrega antes de evaluar.")
+            errores.append("⚠️ Por favor, completa al menos un campo de la entrega.")
+        
+        # Validar límites de caracteres
+        for campo_key, texto in campos_entrega.items():
+            max_chars = formato_config["campos"][campo_key]["max_chars"]
+            if len(texto) > max_chars:
+                label = formato_config["campos"][campo_key]["label"]
+                errores.append(f"⚠️ El campo '{label}' excede el límite de {max_chars} caracteres ({len(texto)} caracteres).")
+        
+        if errores:
+            for error in errores:
+                st.error(error)
         else:
             with st.spinner("La ciudadanía está evaluando..."):
                 try:
@@ -178,7 +296,9 @@ with tab1:
                         candidato=equipo.candidato,
                         perfil=equipo.perfil,
                         situacion_interna=situacion_interna,
-                        entrega_textual=entrega_textual
+                        entrega_textual=entrega_textual,
+                        tablero=tablero,
+                        formato=formato_seleccionado
                     )
                     
                     # Llamada a Ollama
