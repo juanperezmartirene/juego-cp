@@ -645,7 +645,7 @@ if pagina_seleccionada == "Juego":
     # Botones de acción
     col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
-        evaluar = st.button("🎲 Enviar a la ciudadanía", type="primary", use_container_width=True)
+        evaluar = st.button("Enviar a la ciudadanía", type="primary", use_container_width=True)
     with col2:
         if st.button("🔄 Limpiar", use_container_width=True):
             st.rerun()
@@ -1014,6 +1014,6 @@ if pagina_seleccionada == "⚙️ Configuración":
 
 st.divider()
 st.markdown(
-    "<div style='text-align: center; color: gray; font-size: 0.9rem;'>Ciudad Oriental (GM-LLM) - Prototipo Educativo</div>",
+    "<div style='text-align: center; color: gray; font-size: 0.9rem;'>Prototipo</div>",
     unsafe_allow_html=True
 )
