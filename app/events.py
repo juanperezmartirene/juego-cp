@@ -1,6 +1,6 @@
 """
-Eventos del juego Ciudad Oriental (GM-LLM).
-Define los textos base para cada etapa y ronda con estética uruguaya ficticia.
+Eventos del juego
+Define los textos base para cada etapa y ronda
 """
 
 EVENTOS = {

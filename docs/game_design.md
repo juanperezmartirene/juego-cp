@@ -1,16 +1,3 @@
-# Diseño del Juego: Ciudad Oriental (GM-LLM)
-
-## Concepto General
-
-"Ciudad Oriental (GM-LLM)" es un minijuego educativo donde equipos compiten simulando una campaña política. Un LLM local (vía Ollama) actúa como Game Master y evaluador objetivo, representando "La Sociedad" y el sistema mediático.
-
-## Objetivo Pedagógico
-
-- Entender dinámicas de campaña política
-- Practicar comunicación estratégica
-- Evaluar impacto de mensajes políticos
-- Desarrollar pensamiento crítico sobre narrativas
-
 ## Mecánica del Juego
 
 ### Estructura
@@ -103,7 +90,7 @@ El prompt incluye:
 
 ## Estética y Narrativa
 
-- **Ambiente**: Ciudad Oriental, país ficticio con estética uruguaya
+- **Ambiente**: País ficticio con estética uruguaya
 - **Contexto político**: Democracia estable, sistema de partidos
 - **Medios**: Análisis periodístico realista
 - **Lenguaje**: Formal pero accesible, como prensa uruguaya

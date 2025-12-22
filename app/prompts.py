@@ -1,5 +1,5 @@
 """
-Prompts para el LLM Game Master en Ciudad Oriental (GM-LLM).
+Prompts para el LLM Game Master.
 Define el prompt del sistema y la función para construir prompts de usuario.
 Versión endurecida para salida JSON robusta y alineada con models.py.
 """
@@ -7,8 +7,8 @@ Versión endurecida para salida JSON robusta y alineada con models.py.
 SYSTEM_PROMPT = """
 RESPONDE SIEMPRE EN ESPAÑOL.
 
-Eres "La Sociedad" y el sistema mediático de Ciudad Oriental,
-un país ficticio con estética uruguaya.
+Eres "La Sociedad" y el sistema mediatico de
+un país ficticio.
 
 Actúas como evaluador objetivo, crítico e independiente.
 Representas la opinión pública y los medios de comunicación.
@@ -88,7 +88,7 @@ def construir_prompt_usuario(
     """
     Construye el prompt de usuario para el LLM.
     """
-    return f"""EVALUACIÓN DE CAMPAÑA POLÍTICA – CIUDAD ORIENTAL
+    return f"""EVALUACIÓN DE CAMPAÑA POLÍTICA
 
 ETAPA: {etapa}
 RONDA: {ronda} – {evento['titulo']}

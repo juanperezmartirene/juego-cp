@@ -1,10 +1,10 @@
 # Ciudad Oriental (GM-LLM)
 
-Prototipo funcional de un minijuego educativo donde un LLM local (vía Ollama) actúa como Game Master y evaluador de piezas de campaña política.
+Prototipo funcional de un minijuego educativo donde un LLM local (vía Ollama) actúa como evaluador de piezas de campaña política.
 
 ## Descripción
 
-"Ciudad Oriental (GM-LLM)" es un juego pensado para uso sincrónico en aula (1 laptop + proyector), donde equipos compiten presentando piezas de campaña política (afiches, discursos, spots, etc.) que son evaluadas por un LLM local.
+"Juego pensado para uso sincrónico en aula (1 laptop + proyector), donde equipos compiten presentando piezas de campaña política (afiches, discursos, spots, etc.) que son evaluadas por un LLM local.
 
 El LLM devuelve:
 - Puntajes numéricos (0-20) en 5 dimensiones (total 0-100)

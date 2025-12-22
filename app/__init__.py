@@ -1,2 +1,2 @@
-# Paquete app para Ciudad Oriental (GM-LLM)
+# Paquete app 
 

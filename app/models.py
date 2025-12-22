@@ -1,5 +1,5 @@
 """
-Modelos de datos para el juego Ciudad Oriental (GM-LLM).
+Modelos de datos para el juego 
 Define los esquemas de datos para equipos, evaluaciones y rankings.
 
 Versión robusta:

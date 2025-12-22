@@ -1,7 +1,6 @@
 """
-Aplicación Streamlit principal para Ciudad Oriental (GM-LLM).
-Interfaz para el juego de campaña política evaluado por LLM local (Ollama).
-Revamp completo: interfaz visual para aula con proyector.
+Prototipo de juego ciencia política
+
 """
 
 import streamlit as st
@@ -25,7 +24,7 @@ from app.storage import guardar_evaluacion, cargar_evaluaciones, obtener_ranking
 # ============================================================================
 
 st.set_page_config(
-    page_title="Ciudad Oriental - Juego de Campaña Política",
+    page_title="Juego de Campaña Política",
     page_icon="🏛️",
     layout="wide"
 )
@@ -191,12 +190,14 @@ if 'ranking_previo' not in st.session_state:
     st.session_state.ranking_previo = None
 
 if 'pagina_actual' not in st.session_state:
-    st.session_state.pagina_actual = "🎮 Juego"
+    st.session_state.pagina_actual = "Juego"
 
 
 # ============================================================================
 # DATOS INICIALES
 # ============================================================================
+
+# Incorporar en el futuro la posibilidad de que sean generado por los jugadores los perfiles
 
 EQUIPOS_INICIALES = [
     Equipo(
@@ -258,27 +259,27 @@ FORMATOS_ENTREGA = {
 # ============================================================================
 
 with st.sidebar:
-    st.title("🏛️ Ciudad Oriental")
+    st.title("Versión piloto")
     st.caption("Juego de Campaña Política")
     
     # Modo proyector
-    modo_proyector = st.toggle("🎥 Modo Proyector", value=False, help="Pantalla limpia para aula, sin inputs")
+    modo_proyector = st.toggle("Modo Proyector", value=False, help="Pantalla limpia para aula, sin inputs")
     
     st.divider()
     
     # Navegación principal
     opciones_nav = [
-        "🎮 Juego",
-        "📺 Pantalla",
-        "📊 Ranking",
-        "🗞️ Noticiero",
-        "📋 Rúbrica",
-        "⚙️ Configuración"
+        "Juego",
+        "Pantalla",
+        "Ranking",
+        "Noticiero",
+        "Rúbrica",
+        "Configuración"
     ]
     
     # Si modo proyector, forzar a Pantalla
     if modo_proyector:
-        pagina_seleccionada = "📺 Pantalla"
+        pagina_seleccionada = "Pantalla"
     else:
         pagina_seleccionada = st.radio(
             "Navegación",
@@ -292,7 +293,7 @@ with st.sidebar:
     st.divider()
     
     # Configuración de etapa/ronda
-    st.subheader("🎯 Ronda Actual")
+    st.subheader("Ronda Actual")
     etapa = st.selectbox(
         "Etapa",
         ["Internas", "Nacional"],
@@ -314,9 +315,9 @@ with st.sidebar:
         evento = None
     
     # Configuración técnica (solo si no es modo proyector)
-    if not modo_proyector and pagina_seleccionada == "⚙️ Configuración":
+    if not modo_proyector and pagina_seleccionada == "Configuración":
         st.divider()
-        st.subheader("🔧 Configuración Técnica")
+        st.subheader("Configuración Técnica")
         modelo_ollama = st.text_input(
             "Modelo Ollama",
             value="qwen2.5:3b-instruct",
@@ -338,7 +339,7 @@ with st.sidebar:
 # ============================================================================
 
 if evento is None:
-    st.error("❌ Error al cargar el evento. Por favor, selecciona una ronda válida en el sidebar.")
+    st.error("Error al cargar el evento. Por favor, selecciona una ronda válida en el sidebar.")
     st.stop()
 
 
@@ -397,14 +398,14 @@ def test_conexion_ollama(url: str, modelo: str) -> tuple[bool, str]:
 # ============================================================================
 
 # ========== PANTALLA: PROYECTOR ==========
-if pagina_seleccionada == "📺 Pantalla" or modo_proyector:
-    st.title("🏛️ Ciudad Oriental — Pantalla de Resultados")
+if pagina_seleccionada == "Pantalla" or modo_proyector:
+    st.title("Pantalla de Resultados")
     st.markdown('<div class="small-muted">Modo proyector: ranking, titulares y shocks en vivo.</div>', unsafe_allow_html=True)
     
     ranking = obtener_ranking(st.session_state.evaluaciones)
     
     if not ranking:
-        card("📭 Aún no hay resultados", "Realicen la primera entrega y evalúen con el GM.", border_color="#999999")
+        card("Aún no hay resultados", "Realicen la primera entrega y evalúen con el GM.", border_color="#999999")
         st.stop()
     
     # Top 4 Ranking
@@ -488,8 +489,8 @@ if pagina_seleccionada == "📺 Pantalla" or modo_proyector:
 
 
 # ========== PANTALLA: JUEGO (TURNOS) ==========
-if pagina_seleccionada == "🎮 Juego":
-    st.title("🎮 Juego — Turnos")
+if pagina_seleccionada == "Juego":
+    st.title("Juego — Turnos")
     
     # Estado de la ronda
     evaluaciones_ronda = [e for e in st.session_state.evaluaciones if e.ronda == ronda]
@@ -511,12 +512,12 @@ if pagina_seleccionada == "🎮 Juego":
     </div>
     """
     st.progress(progreso)
-    card("📊 Estado de la Ronda", estado_html, border_color="#111111")
+    card("Estado de la Ronda", estado_html, border_color="#111111")
     
     # Siguiente equipo sugerido
     siguiente = obtener_siguiente_equipo_sugerido(st.session_state.evaluaciones, ronda)
     card(
-        "👤 Siguiente Equipo Sugerido",
+        "Siguiente Equipo",
         f"<strong>{siguiente.candidato}</strong> ({siguiente.partido})<br/><span class='small-muted'>{siguiente.perfil}</span>",
         border_color=party_color(siguiente.partido),
         icon="➡️"
@@ -525,7 +526,7 @@ if pagina_seleccionada == "🎮 Juego":
     st.divider()
     
     # Turno del equipo
-    st.subheader("🎯 Turno del Equipo")
+    st.subheader("Turno del Equipo")
     
     # Selección de equipo
     equipo_seleccionado = st.selectbox(
@@ -546,10 +547,10 @@ if pagina_seleccionada == "🎮 Juego":
         <strong>Perfil:</strong> {equipo.perfil}
     </div>
     """
-    card("👤 Información del Equipo", equipo_html, border_color=col_equipo)
+    card("Información del Equipo", equipo_html, border_color=col_equipo)
     
     # Contexto del evento
-    card("📄 Contexto del Evento", evento['descripcion'], border_color="#666666")
+    card("Contexto del Evento", evento['descripcion'], border_color="#666666")
     
     # Situación interna
     situacion_interna = st.text_area(
@@ -560,7 +561,7 @@ if pagina_seleccionada == "🎮 Juego":
     )
     
     # Tablero de campaña
-    st.subheader("🎯 Tablero de Campaña (Microdecisiones)")
+    st.subheader("Tablero de Campaña")
     col1, col2 = st.columns(2)
     with col1:
         segmento = st.selectbox(
@@ -593,7 +594,7 @@ if pagina_seleccionada == "🎮 Juego":
     }
     
     # Sistema de formatos de entrega
-    st.subheader(f"📝 Entrega: {evento['tipo_entrega']}")
+    st.subheader(f"Entrega: {evento['tipo_entrega']}")
     
     # Determinar formato sugerido
     tipo_lower = evento['tipo_entrega'].lower()
